@@ -1,0 +1,15 @@
+﻿fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic-settings
+python-jose[cryptography]
+bcrypt
+psycopg[binary]
+alembic
+pip install email-validator
+
+python -c "from app.core.security import hash_password; print(hash_password('Admin@12345'))"
+
+
+
+ print(hash_password('Admin@12345'))"
