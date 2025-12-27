@@ -2,17 +2,16 @@ import { useEffect, useState } from "react";
 import Login from "./login";
 import Signup from "./Signup";
 import Dashboard from "./dashboard";
+import Chat from "./chat";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
-  // 🔁 Restore session on refresh
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
+    if (token) setIsLoggedIn(true);
   }, []);
 
   function handleLoginSuccess() {
@@ -23,6 +22,7 @@ export default function App() {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     setIsLoggedIn(false);
+    setShowChat(false);
   }
 
   if (!isLoggedIn) {
@@ -36,5 +36,14 @@ export default function App() {
     );
   }
 
-  return <Dashboard onLogout={handleLogout} />;
+  if (showChat) {
+    return <Chat goBack={() => setShowChat(false)} />;
+  }
+
+  return (
+    <Dashboard
+      onLogout={handleLogout}
+      openChat={() => setShowChat(true)}
+    />
+  );
 }

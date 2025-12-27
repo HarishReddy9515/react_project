@@ -7,6 +7,8 @@ bcrypt
 psycopg[binary]
 alembic
 pip install email-validator
+pip install openai
+
 
 python -c "from app.core.security import hash_password; print(hash_password('Admin@12345'))"
 

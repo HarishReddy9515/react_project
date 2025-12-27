@@ -3,7 +3,7 @@ import { Button, Card, Text, Input } from "@fluentui/react-components";
 import background from "./assets/background.jpg";
 import { apiGet, apiPut } from "./api/client";
 
-export default function Dashboard({ onLogout }) {
+export default function Dashboard({ onLogout, openChat }) {
   const role = localStorage.getItem("role"); // "admin" or "user"
   const isAdmin = role === "admin";
 
@@ -62,7 +62,11 @@ export default function Dashboard({ onLogout }) {
 
     try {
       // Backend currently supports updating ONLY the name
-      const updated = await apiPut("/users/me", { name: profile.name }, { auth: true });
+      const updated = await apiPut(
+        "/users/me",
+        { name: profile.name },
+        { auth: true }
+      );
       setProfile(updated);
 
       setEditMode(false);
@@ -120,7 +124,9 @@ export default function Dashboard({ onLogout }) {
               {/* Backend-backed field */}
               <Input
                 value={profile.name || ""}
-                onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                onChange={(e) =>
+                  setProfile({ ...profile, name: e.target.value })
+                }
                 style={{ marginTop: "12px" }}
               />
 
@@ -146,12 +152,24 @@ export default function Dashboard({ onLogout }) {
             </>
           ) : (
             <>
-              <p><b>Name:</b> {profile.name}</p>
-              <p><b>Email:</b> {profile.email}</p>
-              <p><b>Role:</b> {profile.role}</p>
-              <p><b>Education:</b> {education}</p>
-              <p><b>Skills:</b> {skills}</p>
-              <p><b>Summary:</b> {summary}</p>
+              <p>
+                <b>Name:</b> {profile.name}
+              </p>
+              <p>
+                <b>Email:</b> {profile.email}
+              </p>
+              <p>
+                <b>Role:</b> {profile.role}
+              </p>
+              <p>
+                <b>Education:</b> {education}
+              </p>
+              <p>
+                <b>Skills:</b> {skills}
+              </p>
+              <p>
+                <b>Summary:</b> {summary}
+              </p>
             </>
           )}
         </Card>
@@ -160,6 +178,10 @@ export default function Dashboard({ onLogout }) {
         <div style={{ marginTop: "24px", display: "flex", gap: "12px" }}>
           <Button appearance="primary" onClick={handleEditClick}>
             Edit Profile
+          </Button>
+
+          <Button appearance="secondary" onClick={openChat}>
+            Open Chatbot
           </Button>
         </div>
       </div>
